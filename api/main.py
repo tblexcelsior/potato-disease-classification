@@ -2,6 +2,7 @@ from ast import Bytes
 import json
 from urllib import response
 from fastapi import FastAPI, UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import numpy as np
 from io import BytesIO
@@ -12,6 +13,19 @@ import requests
 app = FastAPI()
 
 endpoint = "http://localhost:8501/v1/models/potato_classification:predict"
+
+origins = [
+    "http://localhost",
+    "http://localhost:3000"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 CLASS_NAMES = ['Early Blight', 'Late Blight', 'Healthy']
 
